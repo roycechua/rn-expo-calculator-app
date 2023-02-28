@@ -43,6 +43,7 @@ const Calculator = (props: Props) => {
 
     const [computedValue, setComputedValue] = useState(0);
     const [computationPreview, setComputationPreview] = useState('');
+    const [operation, setOperation] = useState('');
 
     const handleCalculatorPress = (data) => {
         if (computedValue !== 0) {
@@ -52,10 +53,17 @@ const Calculator = (props: Props) => {
 
         switch (data.type) {
             case 'number':
-                setComputationPreview((prevValue) => prevValue + data.value);
+                setComputationPreview((prevValue) => {
+                    return isNaN(parseInt(prevValue[prevValue.length - 1]))
+                        ? prevValue + ' ' + data.value
+                        : prevValue + data.value;
+                });
                 break;
             case 'operation':
-                setComputationPreview((prevValue) => prevValue + data.value);
+                setComputationPreview(
+                    (prevValue) => prevValue + ' ' + data.value
+                );
+                setOperation(data.value);
                 break;
             case 'action':
                 if (data.value === 'AC') {
@@ -68,6 +76,30 @@ const Calculator = (props: Props) => {
                             finalComputationString.replaceAll('x', '*');
                     }
                     setComputedValue(eval(finalComputationString));
+                } else if (data.value === '+/-') {
+                    if (computedValue !== 0) {
+                        const tempVal = computedValue;
+                        setComputedValue(-tempVal);
+                    }
+
+                    if (computationPreview.includes(operation)) {
+                        let computationPreviewArray =
+                            computationPreview.split(operation);
+                        let trimmmedComputationPreview =
+                            computationPreview.replace(
+                                computationPreviewArray[
+                                    computationPreviewArray.length - 1
+                                ],
+                                ''
+                            );
+                        setComputationPreview(
+                            `${trimmmedComputationPreview} ${-computationPreviewArray[
+                                computationPreviewArray.length - 1
+                            ]}`
+                        );
+                    } else {
+                        setComputationPreview((prevValue) => `${-prevValue}`);
+                    }
                 } else if (data.value === '.') {
                     if (
                         !isNaN(
@@ -79,11 +111,11 @@ const Calculator = (props: Props) => {
                         )
                     ) {
                         setComputationPreview(
-                            (prevValue) => prevValue + data.value
+                            (prevValue) => prevValue + ' ' + data.value
                         );
                     } else {
                         setComputationPreview(
-                            (prevValue) => prevValue + `0${data.value}`
+                            (prevValue) => prevValue + ' ' + `0${data.value}`
                         );
                     }
                 } else if (data.value === 'H') {
