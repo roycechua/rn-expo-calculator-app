@@ -45,6 +45,13 @@ const Calculator = (props: Props) => {
     const [computationPreview, setComputationPreview] = useState('');
     const [operation, setOperation] = useState('');
 
+    const saveResultToHistory = async (result: number) => {
+        try {
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const handleCalculatorPress = (data) => {
         if (computedValue !== 0) {
             setComputedValue(0);
@@ -75,7 +82,9 @@ const Calculator = (props: Props) => {
                         finalComputationString =
                             finalComputationString.replaceAll('x', '*');
                     }
-                    setComputedValue(eval(finalComputationString));
+                    const result = eval(finalComputationString);
+                    setComputedValue(result);
+                    saveResultToHistory(result);
                 } else if (data.value === '+/-') {
                     if (computedValue !== 0) {
                         const tempVal = computedValue;
