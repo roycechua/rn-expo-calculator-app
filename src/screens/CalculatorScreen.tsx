@@ -43,6 +43,51 @@ const Calculator = (props: Props) => {
     const [computedValue, setComputedValue] = useState(0);
     const [computationPreview, setComputationPreview] = useState('');
 
+    const handleCalculatorPress = (data) => {
+        switch (data.type) {
+            case 'number':
+                setComputationPreview((prevValue) => prevValue + data.value);
+                break;
+            case 'operation':
+                setComputationPreview((prevValue) => prevValue + data.value);
+                break;
+            case 'action':
+                if (data.value === 'AC') {
+                    setComputationPreview('');
+                    setComputedValue(0);
+                } else if (data.value === '=') {
+                    let finalComputationString = computationPreview;
+                    if (finalComputationString.includes('x')) {
+                        finalComputationString = finalComputationString.replaceAll('x','*')
+                    }
+                    setComputedValue(eval(finalComputationString));
+                } else if (data.value === '.') {
+                    if (
+                        !isNaN(
+                            parseInt(
+                                computationPreview[
+                                    computationPreview.length - 1
+                                ]
+                            )
+                        )
+                    ) {
+                        setComputationPreview(
+                            (prevValue) => prevValue + data.value
+                        );
+                    } else {
+                        setComputationPreview(
+                            (prevValue) => prevValue + `0${data.value}`
+                        );
+                    }
+                } else if (data.value === 'Q') {
+                    navigation.navigate('History');
+                }
+                break;
+            default:
+                break;
+        }
+    };
+
     return (
         <SafeAreaContainer>
             <View
@@ -82,60 +127,7 @@ const Calculator = (props: Props) => {
                         <CalculatorItem
                             data={item}
                             index={index}
-                            onPress={(data) => {
-                                switch (data.type) {
-                                    case 'number':
-                                        setComputationPreview(
-                                            (prevValue) =>
-                                                prevValue + data.value
-                                        );
-                                        break;
-                                    case 'operation':
-                                        setComputationPreview(
-                                            (prevValue) =>
-                                                prevValue + data.value
-                                        );
-                                        break;
-                                    case 'action':
-                                        if (data.value === 'AC') {
-                                            setComputationPreview('');
-                                            setComputedValue(0);
-                                        } else if (data.value === '=') {
-                                            setComputedValue(
-                                                eval(
-                                                    computationPreview
-                                                ).toFixed(5)
-                                            );
-                                        } else if (data.value === '.') {
-                                            if (
-                                                !isNaN(
-                                                    parseInt(
-                                                        computationPreview[
-                                                            computationPreview.length -
-                                                                1
-                                                        ]
-                                                    )
-                                                )
-                                            ) {
-                                                setComputationPreview(
-                                                    (prevValue) =>
-                                                        prevValue + data.value
-                                                );
-                                            } else {
-                                                setComputationPreview(
-                                                    (prevValue) =>
-                                                        prevValue +
-                                                        `0${data.value}`
-                                                );
-                                            }
-                                        } else if (data.value === 'Q')  {
-                                            navigation.navigate("History");
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }}
+                            onPress={handleCalculatorPress}
                         />
                     )}
                 />
