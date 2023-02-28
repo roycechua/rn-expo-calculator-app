@@ -44,6 +44,11 @@ const Calculator = (props: Props) => {
     const [computationPreview, setComputationPreview] = useState('');
 
     const handleCalculatorPress = (data) => {
+        if(computedValue !== 0) {
+            setComputedValue(0);
+            setComputationPreview(computedValue.toString());
+        }
+        
         switch (data.type) {
             case 'number':
                 setComputationPreview((prevValue) => prevValue + data.value);
