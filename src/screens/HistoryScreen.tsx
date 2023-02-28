@@ -4,7 +4,7 @@ import React from 'react';
 const HistoryScreen = () => {
     return (
         <SafeAreaView>
-            <View style={{ flex: 1, backgroundColor: '#fff' }}>
+            <View style={{ flex: 1, backgroundColor: '#292A2D' }}>
                 <Text>HistoryScreen</Text>
             </View>
         </SafeAreaView>
