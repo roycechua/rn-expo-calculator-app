@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { CalculatorData } from '../screens/CalculatorScreen';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface Props {
     data: CalculatorData;
@@ -42,7 +43,7 @@ const CalculatorItem = (props: Props) => {
                 alignItems: 'center',
             }}
         >
-            <Text style={{ color: '#FFF', fontSize: 24 }}>{data.value}</Text>
+            {data.icon ? <MaterialCommunityIcons name={data.icon} size={24} color="#FFF" /> : <Text style={{ color: '#FFF', fontSize: 24 }}>{data.value}</Text>}
         </TouchableOpacity>
     );
 };

@@ -10,13 +10,14 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 export type CalculatorData = {
     value: string;
     type: string;
+    icon?: string;
 };
 
 const CALCULATOR_CONTENT: CalculatorData[] = [
     { value: 'AC', type: 'action' },
     { value: '+/-', type: 'action' },
     { value: '%', type: 'operation' },
-    { value: '/', type: 'operation' },
+    { value: '/', icon: 'division', type: 'operation' },
     { value: '7', type: 'number' },
     { value: '8', type: 'number' },
     { value: '9', type: 'number' },
@@ -31,7 +32,7 @@ const CALCULATOR_CONTENT: CalculatorData[] = [
     { value: '+', type: 'operation' },
     { value: '.', type: 'action' },
     { value: '0', type: 'number' },
-    { value: 'Q', type: 'action' },
+    { value: 'H', icon: 'history', type: 'action' },
     { value: '=', type: 'action' },
 ];
 
@@ -44,11 +45,11 @@ const Calculator = (props: Props) => {
     const [computationPreview, setComputationPreview] = useState('');
 
     const handleCalculatorPress = (data) => {
-        if(computedValue !== 0) {
+        if (computedValue !== 0) {
             setComputedValue(0);
             setComputationPreview(computedValue.toString());
         }
-        
+
         switch (data.type) {
             case 'number':
                 setComputationPreview((prevValue) => prevValue + data.value);
@@ -63,7 +64,8 @@ const Calculator = (props: Props) => {
                 } else if (data.value === '=') {
                     let finalComputationString = computationPreview;
                     if (finalComputationString.includes('x')) {
-                        finalComputationString = finalComputationString.replaceAll('x','*')
+                        finalComputationString =
+                            finalComputationString.replaceAll('x', '*');
                     }
                     setComputedValue(eval(finalComputationString));
                 } else if (data.value === '.') {
@@ -84,7 +86,7 @@ const Calculator = (props: Props) => {
                             (prevValue) => prevValue + `0${data.value}`
                         );
                     }
-                } else if (data.value === 'Q') {
+                } else if (data.value === 'H') {
                     navigation.navigate('History');
                 }
                 break;
