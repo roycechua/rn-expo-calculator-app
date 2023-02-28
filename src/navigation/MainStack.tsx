@@ -1,10 +1,10 @@
-import HomeScreen from '../screens/HomeScreen';
+import CalculatorScreen from '../screens/CalculatorScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
 type RootStackParamList = {
-    Main: undefined;
+    Calculator: undefined;
     History: undefined;
 };
 
@@ -14,10 +14,13 @@ const MainStack = () => {
     return (
         <NavigationContainer>
             <RootStack.Navigator
-                initialRouteName='Home'
+                initialRouteName='Calculator'
                 screenOptions={{ headerShown: false }}
             >
-                <RootStack.Screen name='Home' component={HomeScreen} />
+                <RootStack.Screen
+                    name='Calculator'
+                    component={CalculatorScreen}
+                />
                 <RootStack.Screen
                     name='History'
                     component={HistoryScreen}
