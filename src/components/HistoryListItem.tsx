@@ -25,7 +25,7 @@ const HistoryListItem = (props: Props) => {
                     : {},
             ]}
         >
-            <Text style={styles.itemText}>{data.preview}</Text>
+            <Text style={styles.itemText}>{data.calculation}</Text>
             <Text style={styles.itemText}>= {data.result}</Text>
         </View>
     );

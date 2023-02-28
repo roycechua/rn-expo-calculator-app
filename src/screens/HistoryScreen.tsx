@@ -7,7 +7,7 @@ import EmptyHistoryPlaceholder from '../components/EmptyHistoryPlaceholder';
 import HistoryListItem from '../components/HistoryListItem';
 
 export type HistoryItem = {
-    preview: string;
+    calculation: string;
     result: string | number;
 };
 
