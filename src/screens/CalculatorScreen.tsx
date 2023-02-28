@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import SafeAreaContainer from '../components/SafeAreaContainer';
 import CalculatorItem from '../components/CalculatorItem';
 import Spacer from '../components/Spacer';
@@ -33,6 +33,9 @@ const CALCULATOR_CONTENT: CalculatorData[] = [
 ];
 
 const Calculator = () => {
+    const [computedValue, setComputedValue] = useState(0);
+    const [computationPreview, setComputationPreview] = useState("");
+
     return (
         <SafeAreaContainer>
             <View
@@ -60,17 +63,40 @@ const Calculator = () => {
                             }}
                         >
                             <Text style={{ fontSize: 36, color: '#5B5E67' }}>
-                                3x81
+                                {computationPreview}
                             </Text>
                             <Spacer space={5} />
                             <Text style={{ fontSize: 80, color: '#FFF' }}>
-                                243
+                                {computedValue}
                             </Text>
                         </View>
                     )}
                     renderItem={({ item, index }) => (
-                        <CalculatorItem data={item} onPress={(data) => {
-                            console.log(data)
+                        <CalculatorItem data={item} index={index} onPress={(data) => {
+                            switch (data.type) {
+                                case "number": 
+                                    setComputationPreview(prevValue => prevValue + data.value)
+                                    break;
+                                case "operation":
+                                    setComputationPreview(prevValue => prevValue + data.value)
+                                    break;
+                                case "action": 
+                                    if(data.value === "AC") {
+                                        setComputationPreview("");
+                                        setComputedValue(0);
+                                    } else if (data.value === "=") {
+                                        setComputedValue(eval(computationPreview))
+                                    } else if (data.value === ".") {
+                                        if(!isNaN(parseInt(computationPreview[computationPreview.length - 1]))) {
+                                            setComputationPreview(prevValue => prevValue + data.value)
+                                        } else {
+                                            setComputationPreview(prevValue => prevValue + `0${data.value}`)
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
                         }} />
                     )}
                 />
