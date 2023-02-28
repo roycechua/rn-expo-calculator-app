@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
 import React from 'react';
 import Spacer from './Spacer';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -10,12 +10,13 @@ interface Props {
     rightComponent?: JSX.Element;
     leftPress?: () => void;
     rightPress?: () => void;
+    style?: ViewStyle
 }
 
 const Header = (props: Props) => {
-    const { title, leftComponent, centerComponent, rightComponent, leftPress, rightPress } = props;
+    const { title, leftComponent, centerComponent, rightComponent, leftPress, rightPress, style } = props;
     return (
-        <View style={styles.row}>
+        <View style={[styles.row, style]}>
             {leftComponent ? leftComponent : <Spacer horizontal space={10} />}
             {centerComponent ? centerComponent : <Text style={{ color: '#FFFFFF', fontSize: 24 }}>{title}</Text>}
             {rightComponent ? rightComponent : <View>
@@ -38,5 +39,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        paddingHorizontal: 10,
     },
 });
