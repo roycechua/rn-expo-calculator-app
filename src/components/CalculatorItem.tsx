@@ -33,21 +33,37 @@ const CalculatorItem = (props: Props) => {
             onPress={() => {
                 onPress && onPress(data);
             }}
-            style={{
-                flex: 1,
-                margin: 1,
-                padding: 25,
-                borderRadius: 15,
-                backgroundColor: generateButtonColor(index),
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
+            style={[
+                styles.itemContainer,
+                {
+                    backgroundColor: generateButtonColor(index),
+                },
+            ]}
         >
-            {data.icon ? <MaterialCommunityIcons name={data.icon} size={24} color="#FFF" /> : <Text style={{ color: '#FFF', fontSize: 24 }}>{data.value}</Text>}
+            {data.icon ? (
+                <MaterialCommunityIcons
+                    name={data.icon}
+                    size={24}
+                    color='#FFF'
+                />
+            ) : (
+                <Text style={{ color: '#FFF', fontSize: 24 }}>
+                    {data.value}
+                </Text>
+            )}
         </TouchableOpacity>
     );
 };
 
 export default CalculatorItem;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    itemContainer: {
+        flex: 1,
+        margin: 1,
+        padding: 25,
+        borderRadius: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});
