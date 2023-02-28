@@ -1,13 +1,19 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import SafeAreaContainer from '../components/SafeAreaContainer';
 
 const HistoryScreen = () => {
     return (
-        <SafeAreaView>
-            <View style={{ flex: 1, backgroundColor: '#292A2D' }}>
-                <Text>HistoryScreen</Text>
+        <SafeAreaContainer>
+            <View
+                style={{
+                    flex: 1,
+                    backgroundColor: '#292A2D',
+                    padding: 5,
+                }}
+            >
             </View>
-        </SafeAreaView>
+        </SafeAreaContainer>
     );
 };
 

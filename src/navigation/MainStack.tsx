@@ -3,7 +3,7 @@ import HistoryScreen from '../screens/HistoryScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-type RootStackParamList = {
+export type RootStackParamList = {
     Calculator: undefined;
     History: undefined;
 };
@@ -24,7 +24,6 @@ const MainStack = () => {
                 <RootStack.Screen
                     name='History'
                     component={HistoryScreen}
-                    // initialParams={{ userId: user.id }}
                 />
             </RootStack.Navigator>
         </NavigationContainer>
