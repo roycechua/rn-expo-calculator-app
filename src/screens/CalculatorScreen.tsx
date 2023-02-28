@@ -1,8 +1,11 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import SafeAreaContainer from '../components/SafeAreaContainer';
 import CalculatorItem from '../components/CalculatorItem';
 import Spacer from '../components/Spacer';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/MainStack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type CalculatorData = {
     value: string;
@@ -32,9 +35,13 @@ const CALCULATOR_CONTENT: CalculatorData[] = [
     { value: '=', type: 'action' },
 ];
 
-const Calculator = () => {
+type Props = NativeStackScreenProps<RootStackParamList, 'Calculator'>;
+
+const Calculator = (props: Props) => {
+    const navigation = useNavigation<Props>();
+
     const [computedValue, setComputedValue] = useState(0);
-    const [computationPreview, setComputationPreview] = useState("");
+    const [computationPreview, setComputationPreview] = useState('');
 
     return (
         <SafeAreaContainer>
@@ -50,7 +57,7 @@ const Calculator = () => {
                     data={CALCULATOR_CONTENT}
                     numColumns={4}
                     overScrollMode='never'
-                    scrollEnabled={false}
+                    // scrollEnabled={false}
                     bounces={false}
                     showsVerticalScrollIndicator={false}
                     keyExtractor={(item) => item.value}
@@ -72,32 +79,64 @@ const Calculator = () => {
                         </View>
                     )}
                     renderItem={({ item, index }) => (
-                        <CalculatorItem data={item} index={index} onPress={(data) => {
-                            switch (data.type) {
-                                case "number": 
-                                    setComputationPreview(prevValue => prevValue + data.value)
-                                    break;
-                                case "operation":
-                                    setComputationPreview(prevValue => prevValue + data.value)
-                                    break;
-                                case "action": 
-                                    if(data.value === "AC") {
-                                        setComputationPreview("");
-                                        setComputedValue(0);
-                                    } else if (data.value === "=") {
-                                        setComputedValue(eval(computationPreview))
-                                    } else if (data.value === ".") {
-                                        if(!isNaN(parseInt(computationPreview[computationPreview.length - 1]))) {
-                                            setComputationPreview(prevValue => prevValue + data.value)
-                                        } else {
-                                            setComputationPreview(prevValue => prevValue + `0${data.value}`)
+                        <CalculatorItem
+                            data={item}
+                            index={index}
+                            onPress={(data) => {
+                                switch (data.type) {
+                                    case 'number':
+                                        setComputationPreview(
+                                            (prevValue) =>
+                                                prevValue + data.value
+                                        );
+                                        break;
+                                    case 'operation':
+                                        setComputationPreview(
+                                            (prevValue) =>
+                                                prevValue + data.value
+                                        );
+                                        break;
+                                    case 'action':
+                                        if (data.value === 'AC') {
+                                            setComputationPreview('');
+                                            setComputedValue(0);
+                                        } else if (data.value === '=') {
+                                            setComputedValue(
+                                                eval(
+                                                    computationPreview
+                                                ).toFixed(5)
+                                            );
+                                        } else if (data.value === '.') {
+                                            if (
+                                                !isNaN(
+                                                    parseInt(
+                                                        computationPreview[
+                                                            computationPreview.length -
+                                                                1
+                                                        ]
+                                                    )
+                                                )
+                                            ) {
+                                                setComputationPreview(
+                                                    (prevValue) =>
+                                                        prevValue + data.value
+                                                );
+                                            } else {
+                                                setComputationPreview(
+                                                    (prevValue) =>
+                                                        prevValue +
+                                                        `0${data.value}`
+                                                );
+                                            }
+                                        } else if (data.value === 'Q')  {
+                                            navigation.navigate("History");
                                         }
-                                    }
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }} />
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }}
+                        />
                     )}
                 />
             </View>
