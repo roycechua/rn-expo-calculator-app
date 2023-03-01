@@ -55,10 +55,10 @@ const Calculator = (props: Props) => {
             await addTransaction({
                 uuid: uuid,
                 calculation: calculation,
-                result: result
+                result: result.toString()
             })
         } catch (error) {
-            console.log(error);
+            console.log(JSON.stringify(error));
             showMessage({
                 type: "danger",
                 message: "Error saving result",
