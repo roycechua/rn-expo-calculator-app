@@ -62,7 +62,7 @@ const Calculator = (props: Props) => {
             showMessage({
                 type: "danger",
                 message: "Error saving result",
-                description: error
+                description: JSON.stringify(error)
             });
         }
     };

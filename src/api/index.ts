@@ -8,9 +8,9 @@ interface TransactionParams {
 }
 
 const API = axios.create({
-    baseURL: BASE_URL,
+    baseURL: process.env.BASE_URL || BASE_URL,
     headers: {
-        Authorization: APP_TOKEN,
+        Authorization: process.env.APP_TOKEN || APP_TOKEN,
     },
 });
 

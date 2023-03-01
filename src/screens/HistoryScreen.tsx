@@ -32,7 +32,7 @@ const HistoryScreen = () => {
             showMessage({
                 type: "danger",
                 message: "Error fetching history",
-                description: error
+                description: JSON.stringify(error)
             });
         }
     };
@@ -49,7 +49,7 @@ const HistoryScreen = () => {
             showMessage({
                 type: "danger",
                 message: "Error clearing history",
-                description: error
+                description: JSON.stringify(error)
             });
         }
     };
