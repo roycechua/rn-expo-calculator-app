@@ -1,10 +1,11 @@
 import { FlatList, StyleSheet, View, Alert } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SafeAreaContainer from '../components/SafeAreaContainer';
 import Spacer from '../components/Spacer';
 import Header from '../components/Header';
 import EmptyHistoryPlaceholder from '../components/EmptyHistoryPlaceholder';
 import HistoryListItem from '../components/HistoryListItem';
+import { deleteTransaction, getTransaction } from '../api';
 
 export type HistoryItem = {
     calculation: string;
@@ -17,13 +18,31 @@ const HistoryScreen = () => {
         // { preview: '18 + 43 x 59', result: 2555 },
     ]);
 
-    const handleClearHistory = async () => {
+    const fetchHistory = async () => {
         try {
-            
+            const { data } = await getTransaction(
+                'e841de78-192a-4393-8616-9f07b203df31'
+            );
+            setHistoryList(data.transactions);
         } catch (error) {
             console.log(error);
         }
     };
+
+    const handleClearHistory = async () => {
+        try {
+            await Promise.all([
+                deleteTransaction('e841de78-192a-4393-8616-9f07b203df31'),
+                fetchHistory(),
+            ]);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchHistory();
+    }, []);
 
     return (
         <SafeAreaContainer>

@@ -6,6 +6,7 @@ import Spacer from '../components/Spacer';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/MainStack';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { addTransaction } from '../api';
 
 export type CalculatorData = {
     value: string;
@@ -45,8 +46,13 @@ const Calculator = (props: Props) => {
     const [computationPreview, setComputationPreview] = useState('');
     const [operation, setOperation] = useState('');
 
-    const saveResultToHistory = async (result: number) => {
+    const saveResultToHistory = async (calculation: string, result: number) => {
         try {
+            await addTransaction({
+                uuid: 'e841de78-192a-4393-8616-9f07b203df31',
+                calculation: calculation,
+                result: result
+            })
         } catch (error) {
             console.log(error);
         }
@@ -84,7 +90,7 @@ const Calculator = (props: Props) => {
                     }
                     const result = eval(finalComputationString);
                     setComputedValue(result);
-                    saveResultToHistory(result);
+                    saveResultToHistory(computationPreview, result);
                 } else if (data.value === '+/-') {
                     if (computedValue !== 0) {
                         const tempVal = computedValue;
