@@ -31,5 +31,11 @@ module.exports = {
                 projectId: '39931ebf-dd60-4c1e-b522-4530da57b2f4',
             },
         },
+        updates: {
+            url: 'https://u.expo.dev/39931ebf-dd60-4c1e-b522-4530da57b2f4',
+        },
+        runtimeVersion: {
+            policy: 'sdkVersion',
+        },
     },
 };
