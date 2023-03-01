@@ -1,4 +1,4 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import SafeAreaContainer from '../components/SafeAreaContainer';
 import CalculatorItem from '../components/CalculatorItem';
@@ -6,7 +6,8 @@ import Spacer from '../components/Spacer';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/MainStack';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { addTransaction } from '../api';
+import { addTransaction, addUser } from '../api';
+import { getUUID } from '../utils';
 
 export type CalculatorData = {
     value: string;
@@ -48,8 +49,10 @@ const Calculator = (props: Props) => {
 
     const saveResultToHistory = async (calculation: string, result: number) => {
         try {
+            const uuid = await getUUID(Platform.OS);
+            console.log(uuid);
             await addTransaction({
-                uuid: 'e841de78-192a-4393-8616-9f07b203df31',
+                uuid: uuid,
                 calculation: calculation,
                 result: result
             })

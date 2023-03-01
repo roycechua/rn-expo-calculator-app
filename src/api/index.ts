@@ -14,7 +14,9 @@ const API = axios.create({
     },
 });
 
-const addUser = (os: string): Promise<AxiosResponse> => API.post('');
+export const addUser = (os: string): Promise<AxiosResponse> => API.post('/app/user', {
+    os
+});
 
 export const getTransaction = (uuid: string): Promise<AxiosResponse> =>
     API.get(`/app/user/${uuid}/transaction`);

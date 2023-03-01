@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View, Alert } from 'react-native';
+import { FlatList, StyleSheet, View, Alert, Platform } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import SafeAreaContainer from '../components/SafeAreaContainer';
 import Spacer from '../components/Spacer';
@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import EmptyHistoryPlaceholder from '../components/EmptyHistoryPlaceholder';
 import HistoryListItem from '../components/HistoryListItem';
 import { deleteTransaction, getTransaction } from '../api';
+import { getUUID } from '../utils';
 
 export type HistoryItem = {
     calculation: string;
@@ -20,8 +21,9 @@ const HistoryScreen = () => {
 
     const fetchHistory = async () => {
         try {
+            const uuid = await getUUID(Platform.OS);
             const { data } = await getTransaction(
-                'e841de78-192a-4393-8616-9f07b203df31'
+                uuid
             );
             setHistoryList(data.transactions);
         } catch (error) {
@@ -31,8 +33,9 @@ const HistoryScreen = () => {
 
     const handleClearHistory = async () => {
         try {
+            const uuid = await getUUID(Platform.OS);
             await Promise.all([
-                deleteTransaction('e841de78-192a-4393-8616-9f07b203df31'),
+                deleteTransaction(uuid),
                 fetchHistory(),
             ]);
         } catch (error) {
