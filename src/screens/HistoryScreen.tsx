@@ -7,6 +7,7 @@ import EmptyHistoryPlaceholder from '../components/EmptyHistoryPlaceholder';
 import HistoryListItem from '../components/HistoryListItem';
 import { deleteTransaction, getTransaction } from '../api';
 import { getUUID } from '../utils';
+import { showMessage } from "react-native-flash-message";
 
 export type HistoryItem = {
     calculation: string;
@@ -28,6 +29,11 @@ const HistoryScreen = () => {
             setHistoryList(data.transactions);
         } catch (error) {
             console.log(error);
+            showMessage({
+                type: "danger",
+                message: "Error fetching history",
+                description: error
+            });
         }
     };
 
@@ -40,6 +46,11 @@ const HistoryScreen = () => {
             ]);
         } catch (error) {
             console.log(error);
+            showMessage({
+                type: "danger",
+                message: "Error clearing history",
+                description: error
+            });
         }
     };
 

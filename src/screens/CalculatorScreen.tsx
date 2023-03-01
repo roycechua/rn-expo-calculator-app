@@ -8,6 +8,7 @@ import { RootStackParamList } from '../navigation/MainStack';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { addTransaction, addUser } from '../api';
 import { getUUID } from '../utils';
+import { showMessage } from "react-native-flash-message";
 
 export type CalculatorData = {
     value: string;
@@ -58,6 +59,11 @@ const Calculator = (props: Props) => {
             })
         } catch (error) {
             console.log(error);
+            showMessage({
+                type: "danger",
+                message: "Error saving result",
+                description: error
+            });
         }
     };
 
