@@ -16,6 +16,7 @@ module.exports = {
             supportsTablet: true,
         },
         android: {
+            package: 'com.rc.calculatorapp',
             adaptiveIcon: {
                 foregroundImage: './assets/adaptive-icon.png',
                 backgroundColor: '#ffffff',
