@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { APP_TOKEN } from '@env';
+import { BASE_URL, APP_TOKEN } from '@env';
 
 interface TransactionParams {
     uuid: string;
@@ -8,7 +8,7 @@ interface TransactionParams {
 }
 
 const API = axios.create({
-    baseURL: 'http://d952-180-191-181-48.ngrok.io',
+    baseURL: BASE_URL,
     headers: {
         Authorization: APP_TOKEN,
     },
