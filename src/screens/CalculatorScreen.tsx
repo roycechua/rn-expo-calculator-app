@@ -76,7 +76,7 @@ const Calculator = (props: Props) => {
         switch (data.type) {
             case 'number':
                 setComputationPreview((prevValue) => {
-                    return isNaN(parseInt(prevValue[prevValue.length - 1]))
+                    return isNaN(parseInt(prevValue[prevValue.length - 1])) && prevValue[prevValue.length - 1] !== "."
                         ? prevValue + ' ' + data.value
                         : prevValue + data.value;
                 });
@@ -135,11 +135,11 @@ const Calculator = (props: Props) => {
                         )
                     ) {
                         setComputationPreview(
-                            (prevValue) => prevValue + ' ' + data.value
+                            (prevValue) => prevValue + data.value
                         );
                     } else {
                         setComputationPreview(
-                            (prevValue) => prevValue + ' ' + `0${data.value}`
+                            (prevValue) => prevValue + `0${data.value}`
                         );
                     }
                 } else if (data.value === 'H') {
